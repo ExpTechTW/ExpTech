@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocumentv1 = require("./swagger-v1.json");
 const swaggerDocumentv2 = require("./swagger-v2.json");
@@ -26,6 +27,8 @@ const Options = {
 	customSiteTitle: "API 文件 | ExpTechTW",
 	customfavIcon: "https://api.exptech.com.tw/file/exptech/exptech.6e605140.png"
 };
+
+app.use(cors());
 
 app.use("/docs/v1", swaggerUi.serve, setupSwaggerUI(swaggerDocumentv1, Options));
 app.use("/docs/v2", swaggerUi.serve, setupSwaggerUI(swaggerDocumentv2, Options));

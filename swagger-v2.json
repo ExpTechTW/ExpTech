@@ -1,31 +1,365 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "ExpTechTW API v2",
-        "version": "1.0.0",
-        "description": "一個專為 ExpTech 各種服務提供支援的多功能 API 接口"
+      "title": "ExpTechTW API v2",
+      "description": "一個專為 ExpTech 各種服務提供支援的多功能 API 接口",
+      "termsOfService": "https://raw.githubusercontent.com/ExpTechTW/TREM/Release/terms/terms_of_services",
+      "version": "1.0.1"
     },
     "servers": [
-        {
-            "url": "https://data.exptech.com.tw/api/v2"
-        }
+      {
+        "url": "https://api-1.exptech.com.tw",
+        "description": "臺南伺服器(有緩存)"
+      },
+      {
+        "url": "https://api-2.exptech.com.tw",
+        "description": "臺北伺服器(有緩存)"
+      },
+      {
+        "url": "https://lb-1.exptech.com.tw",
+        "description": "臺北-附載平衡伺服器(無緩存)"
+      },
+      {
+        "url": "https://lb-2.exptech.com.tw",
+        "description": "屏東-附載平衡伺服器(無緩存)"
+      },
+      {
+        "url": "https://lb-3.exptech.com.tw",
+        "description": "臺北-附載平衡伺服器(無緩存)"
+      },
+      {
+        "url": "https://lb-4.exptech.com.tw",
+        "description": "屏東-附載平衡伺服器(無緩存)"
+      }
+    ],
+    "tags": [
+      {
+        "name": "EQReport"
+      },
+      {
+        "name": "Other"
+      }
     ],
     "paths": {
-        "/eq": {
-            "get": {
-                "summary": "Get equipment details",
-                "responses": {
-                    "200": {
-                        "description": "Successful response for v1",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                }
-                            }
-                        }
-                    }
+      "/api/v2/eq/report": {
+        "get": {
+          "tags": [
+            "EQReport"
+          ],
+          "summary": "地震報告列表",
+          "description": "回傳地震報告列表",
+          "responses": {
+            "200": {
+              "description": "成功",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EQReport"
+                  }
                 }
+              }
             }
+          }
         }
+      },
+      "/api/v2/eq/report/{ID}": {
+        "get": {
+          "tags": [
+            "EQReport"
+          ],
+          "summary": "指定ID的地震報告資訊",
+          "description": "回傳指定ID的地震報告資訊",
+          "parameters": [
+            {
+              "name": "ID",
+              "in": "path",
+              "description": "指定地震報告的ID",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "113000-2024-0410-213436"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EQReportDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/ntp": {
+        "get": {
+          "tags": [
+            "Other"
+          ],
+          "summary": "標準時間 UTC+8",
+          "description": "回傳標準時間 UTC+8",
+          "responses": {
+            "200": {
+              "description": "成功",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "EQReport": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "113000-2024-0410-213436"
+              },
+              "lat": {
+                "type": "number",
+                "example": 24.28
+              },
+              "lon": {
+                "type": "number",
+                "example": 121.85
+              },
+              "depth": {
+                "type": "number",
+                "example": 25
+              },
+              "loc": {
+                "type": "string",
+                "example": "花蓮縣政府東北方  39.3  公里 (位於臺灣東部海域)"
+              },
+              "mag": {
+                "type": "number",
+                "example": 3.6
+              },
+              "time": {
+                "type": "number",
+                "example": 1712756076000
+              },
+              "trem": {
+                "type": "number",
+                "example": 1000
+              },
+              "int": {
+                "type": "number",
+                "example": 1
+              },
+              "md5": {
+                "type": "string",
+                "example": "FE7CF5EB2440FDCF5092C4B89B67C91D"
+              }
+            }
+          }
+        },
+        "EQReportDetail": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "113000-2024-0410-213436"
+            },
+            "lat": {
+              "type": "number",
+              "example": 24.28
+            },
+            "lon": {
+              "type": "number",
+              "example": 121.85
+            },
+            "depth": {
+              "type": "number",
+              "example": 25
+            },
+            "loc": {
+              "type": "string",
+              "example": "花蓮縣政府東北方 39.3 公里 (位於臺灣東部海域)"
+            },
+            "mag": {
+              "type": "number",
+              "example": 3.6
+            },
+            "time": {
+              "type": "number",
+              "example": 1712756076000
+            },
+            "list": {
+              "type": "object",
+              "properties": {
+                "宜蘭縣": {
+                  "type": "object",
+                  "properties": {
+                    "int": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "town": {
+                      "type": "object",
+                      "properties": {
+                        "澳花": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.33
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.74
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "南澳": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.43
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.75
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "武塔": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.45
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.78
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "冬山": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.63
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.72
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "花蓮縣": {
+                  "type": "object",
+                  "properties": {
+                    "int": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "town": {
+                      "type": "object",
+                      "properties": {
+                        "和平": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.31
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.75
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "太魯閣": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.16
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.62
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "西寶": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 24.21
+                            },
+                            "lon": {
+                              "type": "number",
+                              "example": 121.48
+                            },
+                            "int": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "trem": {
+              "type": "number",
+              "example": 1000
+            }
+          }
+        },
+        "Time": {
+          "type": "number",
+          "example": 1712757758122
+        }
+      }
     }
-}
+  }
