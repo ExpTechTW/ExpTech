@@ -1,195 +1,117 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "ExpTechTW API v1",
-      "description": "一個專為 ExpTech 各種服務提供支援的多功能 API 接口",
-      "termsOfService": "https://raw.githubusercontent.com/ExpTechTW/TREM/Release/terms/terms_of_services",
-      "version": "1.0.1"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ExpTechTW API v1",
+    "description": "一個專為 ExpTech 各種服務提供支援的多功能 API 接口",
+    "termsOfService": "https://raw.githubusercontent.com/ExpTechTW/TREM/Release/terms/terms_of_services",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api-1.exptech.com.tw",
+      "description": "臺南伺服器(有緩存)"
     },
-    "servers": [
-      {
-        "url": "https://api-1.exptech.com.tw",
-        "description": "臺南伺服器(有緩存)"
-      },
-      {
-        "url": "https://api-2.exptech.com.tw",
-        "description": "臺北伺服器(有緩存)"
-      },
-      {
-        "url": "https://lb-1.exptech.com.tw",
-        "description": "臺北-附載平衡伺服器(無緩存)"
-      },
-      {
-        "url": "https://lb-2.exptech.com.tw",
-        "description": "屏東-附載平衡伺服器(無緩存)"
-      },
-      {
-        "url": "https://lb-3.exptech.com.tw",
-        "description": "臺北-附載平衡伺服器(無緩存)"
-      },
-      {
-        "url": "https://lb-4.exptech.com.tw",
-        "description": "屏東-附載平衡伺服器(無緩存)"
+    {
+      "url": "https://api-2.exptech.com.tw",
+      "description": "臺北伺服器(有緩存)"
+    },
+    {
+      "url": "https://lb-1.exptech.com.tw",
+      "description": "臺北-附載平衡伺服器(無緩存)"
+    },
+    {
+      "url": "https://lb-2.exptech.com.tw",
+      "description": "屏東-附載平衡伺服器(無緩存)"
+    },
+    {
+      "url": "https://lb-3.exptech.com.tw",
+      "description": "臺北-附載平衡伺服器(無緩存)"
+    },
+    {
+      "url": "https://lb-4.exptech.com.tw",
+      "description": "屏東-附載平衡伺服器(無緩存)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "EEW"
+    },
+    {
+      "name": "RTS"
+    },
+    {
+      "name": "Other"
+    }
+  ],
+  "paths": {
+    "/api/v1/eq/eew": {
+      "get": {
+        "tags": [
+          "EEW"
+        ],
+        "summary": "即時 EEW 資料",
+        "description": "回傳即時 EEW 資料",
+        "responses": {
+          "200": {
+            "description": "成功"
+          }
+        }
       }
-    ],
-    "tags": [
-      {
-        "name": "EEW"
-      },
-      {
-        "name": "RTS"
-      },
-      {
-        "name": "Other"
+    },
+    "/api/v1/eq/eew/{UNIX TIMESTAMP(ms)}": {
+      "get": {
+        "tags": [
+          "EEW"
+        ],
+        "summary": "歷史 EEW 資料",
+        "description": "回傳歷史 EEW 資料",
+        "parameters": [
+          {
+            "name": "UNIX TIMESTAMP(ms)",
+            "in": "path",
+            "description": "欲獲取的EEW之UNIX TimeStamp",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "速報來源",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cwa",
+                "nied",
+                "kma",
+                "scdzj"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功"
+          }
+        }
       }
-    ],
-    "paths": {
-      "/api/v1/eq/eew": {
-        "get": {
-          "tags": [
-            "EEW"
-          ],
-          "summary": "即時 EEW 資料",
-          "description": "回傳即時 EEW 資料",
-          "responses": {
-            "200": {
-              "description": "成功"
-            }
-          }
-        }
-      },
-      "/api/v1/eq/eew/{UNIX TIMESTAMP(ms)}": {
-        "get": {
-          "tags": [
-            "EEW"
-          ],
-          "summary": "歷史 EEW 資料",
-          "description": "回傳歷史 EEW 資料",
-          "parameters": [
-            {
-              "name": "UNIX TIMESTAMP(ms)",
-              "in": "path",
-              "description": "欲獲取的EEW之UNIX TimeStamp",
-              "required": true,
-              "schema": {
-                "type": "number"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "成功"
-            }
-          }
-        }
-      },
-      "/api/v1/trem/rts": {
-        "get": {
-          "tags": [
-            "RTS"
-          ],
-          "summary": "即時 RTS 資料",
-          "description": "回傳即時 RTS 資料",
-          "responses": {
-            "200": {
-              "description": "成功",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/RTS"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/v1/trem/rts/{UNIX TIMESTAMP(ms)}": {
-        "get": {
-          "tags": [
-            "RTS"
-          ],
-          "summary": "歷史 RTS 資料",
-          "description": "回傳歷史 RTS 資料",
-          "parameters": [
-            {
-              "name": "UNIX TIMESTAMP(ms)",
-              "in": "path",
-              "description": "欲獲取的RTS資料之UNIX TimeStamp",
-              "required": true,
-              "schema": {
-                "type": "number"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "成功",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/RTS"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/v1/trem/rts-image": {
-        "get": {
-          "tags": [
-            "RTS"
-          ],
-          "summary": "即時 RTS IMAGE 資料",
-          "description": "回傳即時 RTS IMAGE 資料",
-          "responses": {
-            "200": {
-              "description": "成功"
-            }
-          }
-        }
-      },
-      "/api/v1/trem/rts-image/{UNIX TIMESTAMP(ms)}": {
-        "get": {
-          "tags": [
-            "RTS"
-          ],
-          "summary": "歷史 RTS IMAGE 資料",
-          "description": "回傳歷史 RTS IMAGE 資料",
-          "parameters": [
-            {
-              "name": "UNIX TIMESTAMP(ms)",
-              "in": "path",
-              "description": "欲獲取的RTS IMAGE資料之UNIX TimeStamp",
-              "required": true,
-              "schema": {
-                "type": "number"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "成功"
-            }
-          }
-        }
-      },
-      "/ntp": {
-        "get": {
-          "tags": [
-            "Other"
-          ],
-          "summary": "標準時間 UTC+8",
-          "description": "回傳標準時間 UTC+8",
-          "responses": {
-            "200": {
-              "description": "成功",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Time"
-                  }
+    },
+    "/api/v1/trem/rts": {
+      "get": {
+        "tags": [
+          "RTS"
+        ],
+        "summary": "即時 RTS 資料",
+        "description": "回傳即時 RTS 資料",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RTS"
                 }
               }
             }
@@ -197,76 +119,169 @@
         }
       }
     },
-    "components": {
-      "schemas": {
-        "RTS": {
-          "type": "object",
-          "properties": {
-            "station": {
-              "type": "object",
-              "properties": {
-                "StationID": {
-                  "type": "object",
-                  "properties": {
-                    "pga": {
-                      "type": "number",
-                      "example": 1.62
-                    },
-                    "pgv": {
-                      "type": "number",
-                      "example": 0.19
-                    },
-                    "i": {
-                      "type": "number",
-                      "example": -2.9
-                    },
-                    "I": {
-                      "type": "number",
-                      "example": -3
-                    },
-                    "alert": {
-                      "type": "number",
-                      "example": 1
-                    }
+    "/api/v1/trem/rts/{UNIX TIMESTAMP(ms)}": {
+      "get": {
+        "tags": [
+          "RTS"
+        ],
+        "summary": "歷史 RTS 資料",
+        "description": "回傳歷史 RTS 資料",
+        "parameters": [
+          {
+            "name": "UNIX TIMESTAMP(ms)",
+            "in": "path",
+            "description": "欲獲取的RTS資料之UNIX TimeStamp",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RTS"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/trem/rts-image": {
+      "get": {
+        "tags": [
+          "RTS"
+        ],
+        "summary": "即時 RTS IMAGE 資料",
+        "description": "回傳即時 RTS IMAGE 資料",
+        "responses": {
+          "200": {
+            "description": "成功"
+          }
+        }
+      }
+    },
+    "/api/v1/trem/rts-image/{UNIX TIMESTAMP(ms)}": {
+      "get": {
+        "tags": [
+          "RTS"
+        ],
+        "summary": "歷史 RTS IMAGE 資料",
+        "description": "回傳歷史 RTS IMAGE 資料",
+        "parameters": [
+          {
+            "name": "UNIX TIMESTAMP(ms)",
+            "in": "path",
+            "description": "欲獲取的RTS IMAGE資料之UNIX TimeStamp",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功"
+          }
+        }
+      }
+    },
+    "/ntp": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "標準時間 UTC+8",
+        "description": "回傳標準時間 UTC+8",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Time"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RTS": {
+        "type": "object",
+        "properties": {
+          "station": {
+            "type": "object",
+            "properties": {
+              "StationID": {
+                "type": "object",
+                "properties": {
+                  "pga": {
+                    "type": "number",
+                    "example": 1.62
+                  },
+                  "pgv": {
+                    "type": "number",
+                    "example": 0.19
+                  },
+                  "i": {
+                    "type": "number",
+                    "example": -2.9
+                  },
+                  "I": {
+                    "type": "number",
+                    "example": -3
+                  },
+                  "alert": {
+                    "type": "number",
+                    "example": 1
                   }
                 }
               }
-            },
-            "box": {
+            }
+          },
+          "box": {
+            "type": "object",
+            "properties": {
+              "8": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          },
+          "int": {
+            "type": "array",
+            "items": {
               "type": "object",
               "properties": {
-                "8": {
+                "code": {
+                  "type": "number",
+                  "example": 269
+                },
+                "i": {
                   "type": "number",
                   "example": 0
                 }
               }
-            },
-            "int": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "code": {
-                    "type": "number",
-                    "example": 269
-                  },
-                  "i": {
-                    "type": "number",
-                    "example": 0
-                  }
-                }
-              }
-            },
-            "time": {
-              "type": "number",
-              "example": 1712758954583
             }
+          },
+          "time": {
+            "type": "number",
+            "example": 1712758954583
           }
-        },
-        "Time": {
-          "type": "number",
-          "example": 1712757758122
         }
+      },
+      "Time": {
+        "type": "number",
+        "example": 1712757758122
       }
     }
   }
+}
