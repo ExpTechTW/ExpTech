@@ -72,7 +72,8 @@
             "description": "欲獲取的EEW之UNIX TimeStamp",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "number",
+              "example": 1712768135300
             }
           },
           {
