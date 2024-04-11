@@ -80,7 +80,7 @@
             "name": "type",
             "in": "query",
             "description": "速報來源",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string",
               "enum": [
