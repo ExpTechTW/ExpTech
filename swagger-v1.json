@@ -4,7 +4,7 @@
       "title": "ExpTechTW API v1",
       "description": "一個專為 ExpTech 各種服務提供支援的多功能 API 接口",
       "termsOfService": "https://raw.githubusercontent.com/ExpTechTW/TREM/Release/terms/terms_of_services",
-      "version": "1.0.2"
+      "version": "1.0.1"
     },
     "servers": [
       {
